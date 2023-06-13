@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema(
     sell: Number,
   },
   {
-    timestamps: true,
+    timestamps: true, 
   }
 );
 const Product = mongoose.model("Product", productSchema);
@@ -46,74 +46,71 @@ app.post("/iphone", async (req, res) => {
 
 //! API to get a phone data by id
 
-app.get("/iphone/:id",async (req, res) => {
-    try {
-        const id = req.params.id;
-        const phoneData = await Product.findById(id);
-        if (phoneData) {
-          res.json(phoneData);
-        } else {
-          res.status(404).json({ message: "data not found" });
-        }
-    } catch (error) {
-        console.error(error);
-    res.status(500).json({ message: "something went wrong" });
+app.get("/iphone/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const phoneData = await Product.findById(id);
+    if (phoneData) {
+      res.json(phoneData);
+    } else {
+      res.status(404).json({ message: "data not found" });
     }
- 
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "something went wrong" });
+  }
 });
 
 //! API to update a phone data by id
 
-app.put("/iphone/:id", async(req, res) => {
-    try {
-        const id = req.params.id;
-  const phoneData = await Product.findByIdAndUpdate(id,req.body,{new:true});
-  if (phoneData) {
-    phoneData.model = req.body.model;
-    phoneData.price = req.body.price;
-    phoneData.color = req.body.color;
+app.put("/iphone/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const phoneData = await Product.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    if (phoneData) {
+      phoneData.model = req.body.model;
+      phoneData.price = req.body.price;
+      phoneData.color = req.body.color;
 
-    res.json(phoneData);
-  } else {
-    res.status(404).json({ message: "data not found" });
-  }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "something went wrong" });
+      res.json(phoneData);
+    } else {
+      res.status(404).json({ message: "data not found" });
     }
-  
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "something went wrong" });
+  }
 });
 
 //! API to delete a phone data by id
 
-app.delete("/iphone/:id",async (req, res) => {
-    try {
-        const id = req.params.id;
-  const phoneData =await Product.findByIdAndDelete(id);
-  if(phoneData){
-    res.json(phoneData);
-  }else{
-    res.status(404).json({message:"data not found"})
-  }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "something went wrong" });
+app.delete("/iphone/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const phoneData = await Product.findByIdAndDelete(id);
+    if (phoneData) {
+      res.json(phoneData);
+    } else {
+      res.status(404).json({ message: "data not found" });
     }
-  
- 
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "something went wrong" });
+  }
 });
 
 //! API to get all phone data
 
-app.get("/iphone", async(req, res) => {
-    try {
-        const allData = await Product.find({});
-        res.json(allData);
-    } catch (error) {
-        console.error(error);
+app.get("/iphone", async (req, res) => {
+  try {
+    const allData = await Product.find({});
+    res.json(allData);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "something went wrong" });
-    }
-   
+  }
 });
 
 const port = process.env.PORT;
